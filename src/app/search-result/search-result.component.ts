@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-search-result',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchResultComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder,private searchService: SearchService<any>) { }
+  searchTypes = [
+    
+  ]
+  searchResult$ = this.searchService.getResult();
+  resultsFg = this.fb.group({
+    searchInput:''
+    // repos:'',
+    // code:'',
 
+    // users:'',
+    // wikis:'',
+
+  })
   ngOnInit(): void {
+    
   }
-
+  searchItem(){}
 }
