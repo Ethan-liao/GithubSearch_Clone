@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SearchService } from '../services/search.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class SearchResultComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private searchService: SearchService<any>
+    private searchService: SearchService<any>,
+    private router: Router
   ) {
     this.currentSearchType = 'repositories';
   }
@@ -39,6 +41,9 @@ export class SearchResultComponent implements OnInit {
       this.searchInput.setValue(this.searchService.savedUserInput);
     }
     this.resultListener = this.searchResult$.subscribe((res) => {
+      if(!res.total) {
+        this.router.navigateByUrl('/search');
+      }
       this.pageCount = res.total > 10000 ? 1000 : res.total;
     });
   }
