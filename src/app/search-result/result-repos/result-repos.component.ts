@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-result-repos',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class ResultReposComponent implements OnInit {
 
   constructor() { }
-
+  @Input() searchResult$: Observable<any>;
   ngOnInit(): void {
   }
 

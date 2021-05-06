@@ -6,6 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { ResultReposComponent } from './search-result/result-repos/result-repos.component';
+import { ResultUsersComponent } from './search-result/result-users/result-users.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { SearchService } from './services/search.service';
 
@@ -13,7 +15,9 @@ import { SearchService } from './services/search.service';
   declarations: [
     AppComponent,
     SearchBarComponent,
-    SearchResultComponent
+    SearchResultComponent,
+    ResultReposComponent,
+    ResultUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +25,10 @@ import { SearchService } from './services/search.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  exports:[
+    ResultReposComponent,
+    ResultUsersComponent
   ],
   providers: [SearchService],
   bootstrap: [AppComponent]

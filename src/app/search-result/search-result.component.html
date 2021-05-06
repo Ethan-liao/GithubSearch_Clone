@@ -3,13 +3,14 @@
         <input formControlName="searchInput" type="text" class="form-control" placeholder="Search Github" aria-label="Search Github" aria-describedby="basic-addon2">
        <button class="ml-2 btn btn-secondary" [disabled]='resultsFg.invalid' (click)='searchItem()'>Search</button>
     </div>
+    {{resultsFg.value | json}}
     <div class="d-flex">
         <div>
             <nav class="nav flex-column">
-                <a class="list-group-item list-group-item-action" aria-current="page" href="#">Active</a>
-                <a class="list-group-item list-group-item-action" href="#">Link</a>
-                <a class="list-group-item list-group-item-action" href="#">Link</a>
-                <a class="list-group-item list-group-item-action" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('repositories')" >Repositories</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('commits')" >Commits</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('topics')" >Topics</button>
+                <button type="button" class="list-group-item list-group-item-action"  (click)="searchItem('users')" >Users</button>
               </nav>
               <!-- <nav class="nav flex-column">
                 <a class="nav-link active" aria-current="page" href="#">Active</a>
@@ -18,55 +19,45 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
               </nav> -->
         </div>
-        <div class="d-flex flex-column mx-4">
+        <div class="d-flex flex-column ml-3">
             <div class="d-flex">
-                <h3>Showing {{(searchResult$ | async)?.Repository.total_count}} repository results 
+                <h3>Showing {{(searchResult$ | async)?.total}} {{(searchResult$ | async)?.type}}  results 
                 </h3>
                 <div class="dropdown ml-5">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Sort By
+                    Sort By
                     </a>
-                  
+                
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                  </div>
+                </div>
             </div>
-            <div>
-                <ul class="list-group list-group-flush">
-                    <li *ngFor = "let item of (searchResult$ | async)?.Repository.items" class="list-group-item">
-                        <div class="d-flex flex-column">
-                            <h5><a [href]="item.html_url">{{item.full_name}}</a> </h5>
-                            <p>{{item.description}}</p>
-                        </div>
-                        
-                        <div class="d-flex">
-                            lagnuages here
-                        </div>
-                        <div class="d-flex">
-                            <div>
-                                <a class="Link--muted" href="/angular/angular/stargazers">
-                                    <svg aria-label="star" class="octicon octicon-star" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path></svg>
-                                    {{item.stargazers_count | number:'2.1-2'}}
-                                </a>
-                            </div>
-                            <div class="ml-3">
-                                {{item.language ? item.language : ''}}
-                            </div>
-                            <div class="ml-3">
-                                {{item.license ? item.license.name : ''}}
-                            </div>
-                            <div class="ml-3">
-                                Updated at {{item.updated_at | date :'h'}} hours ago
-                            </div>
-                        </div>
-                    
-                    </li>
-                    
-                </ul>
+            <div [ngSwitch]="(searchResult$ | async)?.type">
+
+                <app-result-repos
+                *ngSwitchCase="'repositories'"
+                [searchResult$]="searchResult$"></app-result-repos>
+                <app-result-users
+                *ngSwitchCase="'users'"
+                [searchUserResult$]="searchResult$"></app-result-users>
             </div>
         </div>
+        
     </div>
+    <nav class="mt-4" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
 </div>
