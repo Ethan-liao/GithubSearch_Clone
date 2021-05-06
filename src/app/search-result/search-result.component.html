@@ -3,15 +3,25 @@
         <input formControlName="searchInput" type="text" class="form-control" placeholder="Search Github" aria-label="Search Github" aria-describedby="basic-addon2">
        <button class="ml-2 btn btn-secondary" [disabled]='resultsFg.invalid' (click)='searchItem()'>Search</button>
     </div>
-    {{resultsFg.value | json}}
+    
     <div class="d-flex">
         <div>
-            <nav class="nav flex-column">
-                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('repositories')" >Repositories</button>
-                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('commits')" >Commits</button>
-                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('topics')" >Topics</button>
-                <button type="button" class="list-group-item list-group-item-action"  (click)="searchItem('users')" >Users</button>
+            <nav class="nav flex-column" *ngIf="(searchResult$ | async)?.total">
+        <!-- add the rest if theres time -->
+                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('repositories')" >Repositories <span  *ngIf="(searchResult$ | async)?.type === 'repositories'" class="badge badge-pill badge-secondary">{{(searchResult$ | async)?.total | shortenNum}}</span></button>
+                <!-- <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('commits')" >Commits</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('topics')" >Topics</button> -->
+                <button 
+                    type="button" 
+                    class="list-group-item list-group-item-action"  
+                    (click)="searchItem('users')" >
+                    Users 
+                    <span 
+                        *ngIf="(searchResult$ | async)?.type === 'users'" 
+                        class="badge badge-pill badge-secondary">{{(searchResult$ | async)?.total | shortenNum}}</span></button>
               </nav>
+
+        <!-- add if theres time -->
               <!-- <nav class="nav flex-column">
                 <a class="nav-link active" aria-current="page" href="#">Active</a>
                 <a class="nav-link" href="#">Link</a>
@@ -20,19 +30,20 @@
               </nav> -->
         </div>
         <div class="d-flex flex-column ml-3">
-            <div class="d-flex">
+            <div class="d-flex" *ngIf="(searchResult$ | async)?.total">
                 <h3>Showing {{(searchResult$ | async)?.total}} {{(searchResult$ | async)?.type}}  results 
                 </h3>
+                <!-- sort if there is time -->
                 <div class="dropdown ml-5">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort By
-                    </a>
+                    </a> -->
                 
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="#">Action</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                </div> -->
                 </div>
             </div>
             <div [ngSwitch]="(searchResult$ | async)?.type">
@@ -47,17 +58,18 @@
         </div>
         
     </div>
-    <nav class="mt-4" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
+
+
+   
+    
+
+    <nav *ngIf="pageCount" class="mt-4">
+        <ngb-pagination class="d-flex justify-content-center"
+         [collectionSize]="pageCount" 
+         [(page)]="page"
+         (click)="searchForPage()" 
+         [maxSize]="7" 
+         [boundaryLinks]="true"></ngb-pagination>
       </nav>
+      <pre>current page {{page}}</pre>
 </div>

@@ -4,6 +4,7 @@ import { SearchResultRoutingModule } from './search-result-routing.module';
 
 
 
+
 @NgModule({
   declarations: [  ],
   imports: [

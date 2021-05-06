@@ -7,22 +7,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./result-users.component.scss']
 })
 export class ResultUsersComponent implements OnInit, OnDestroy {
-  resultListener: any;
-  pageCount: number;
 
   constructor() { }
   @Input() searchUserResult$: Observable<any>;
 
   ngOnInit(): void {
-    this.resultListener = this.searchUserResult$.subscribe(res => {
-      this.pageCount = res.total/10;
-      console.log('page', this.pageCount);
-      
-    })
+  
   }
 
-  ngOnDestroy(){
-    this.resultListener.unsubsubscribe()
-  }
+  ngOnDestroy(){}
 
 }

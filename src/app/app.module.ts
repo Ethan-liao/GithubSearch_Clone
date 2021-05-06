@@ -10,6 +10,8 @@ import { ResultReposComponent } from './search-result/result-repos/result-repos.
 import { ResultUsersComponent } from './search-result/result-users/result-users.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { SearchService } from './services/search.service';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ShortenNumPipe } from './pipes/shorten-num.pipe';
 
 @NgModule({
   declarations: [
@@ -17,14 +19,16 @@ import { SearchService } from './services/search.service';
     SearchBarComponent,
     SearchResultComponent,
     ResultReposComponent,
-    ResultUsersComponent
+    ResultUsersComponent,
+    ShortenNumPipe
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports:[
     ResultReposComponent,

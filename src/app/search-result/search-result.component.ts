@@ -8,14 +8,21 @@ import { SearchService } from '../services/search.service';
   styleUrls: ['./search-result.component.scss']
 })
 export class SearchResultComponent implements OnInit {
+  currentSearchType: string;
  
  public get searchInput() : FormGroup {
    return <FormGroup> this.resultsFg.get('searchInput')
  }
  
-  constructor(private fb: FormBuilder,private searchService: SearchService<any>) { }
+  constructor(private fb: FormBuilder,private searchService: SearchService<any>) { 
+    this.currentSearchType = "repositories"
+
+  }
   
   searchResult$ = this.searchService.getResult();
+  resultListener: any;
+  pageCount: number;
+  
   resultsFg = this.fb.group({
     searchInput:''
     // repos:'',
@@ -25,23 +32,35 @@ export class SearchResultComponent implements OnInit {
     // wikis:'',
 
   })
+  page = 1
   ngOnInit(): void {
     if(this.searchService.savedUserInput){
       this.searchInput.setValue(this.searchService.savedUserInput)
     }
+    this.resultListener = this.searchResult$.subscribe(res => {
+      this.pageCount = res.total > 10000 ? 1000 : res.total;
+
+      
+    })
   };
 
-  
+  searchForPage(){
+    setTimeout(() => {
+      
+      if (this.page) {
+        console.log('search for page hit', this.page);
+        
+        this.searchService.search(this.currentSearchType,this.searchInput.value, this.page.toString()).subscribe();
+      }
+    }, 0);
+  }
+
   searchItem(searchType?: string){
     const inputValue =  this.resultsFg.get('searchInput')?.value;
     if (searchType) {
-      console.log('searchType hit',searchType);
-      
-      this.searchService.search(searchType,inputValue).subscribe();
-    } else {
-      console.log('searchType else hit',searchType);
-      this.searchService.search("repositories",inputValue).subscribe();
-    };
+      this.currentSearchType = searchType
+    } 
+    this.searchService.search(this.currentSearchType,inputValue).subscribe();
     
      
   }
