@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   templateUrl: './result-users.component.html',
   styleUrls: ['./result-users.component.scss']
 })
-export class ResultUsersComponent implements OnInit, OnDestroy {
+export class ResultUsersComponent implements OnInit {
 
   constructor() { }
   @Input() searchUserResult$: Observable<any>;
@@ -14,7 +14,5 @@ export class ResultUsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   
   }
-
-  ngOnDestroy(){}
 
 }

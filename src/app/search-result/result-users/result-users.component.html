@@ -1,55 +1,61 @@
 <div class="d-flex flex-column mx-4">
-    
-    <div>
-        <ul class="list-group list-group-flush">
-
-            <!-- / this will need to be changed -->
-            <li *ngFor = "let item$ of (searchUserResult$ | async)?.value" class="list-group-item">
-                <!-- /image
+  <div>
+    <ul class="list-group list-group-flush">
+      <!-- / this will need to be changed -->
+      <li
+        *ngFor="let item$ of (searchUserResult$ | async)?.value"
+        class="list-group-item"
+      >
+        <!-- /image
                     /name
                     /bio
                     location
                     email -->
-                    <!-- {{(item$ | async)?.bio}} -->
-                    <!-- {{item$ | json}} -->
-                <div class="d-flex">
-                    <div class="mr-2">
-                        <a [href]="(item$ | async)?.html_url">
-                            <img class = "thumbnail-size"  [src]="(item$ | async)?.avatar_url" alt="'N/a'">
-                        </a>
-                    </div>
-                    <h5><a [href]="(item$ | async)?.html_url">{{(item$ | async)?.name }}</a>&nbsp; <a [href]="(item$ | async)?.html_url">{{(item$ | async)?.login}}</a></h5>
-                </div>
-                <div class="d-flex">
-                    
-                    <p class="ml-4">{{(item$ | async)?.bio}}</p>
-                </div>
-                
-              
-                <div class="d-flex">
-                   
-                    <div class="ml-3" *ngIf="(item$ | async)?.location">
-                        {{(item$ | async)?.location}}
-                    </div>
-                    <div class="ml-3" *ngIf="(item$ | async)?.email">
-                        {{(item$ | async)?.email }}
-                    </div>
-                    <div class="ml-3" *ngIf="(item$ | async)?.public_repos">
-                       <b> {{(item$ | async)?.public_repos }}</b> public repos
-                    </div>
-                    <div class="ml-3" *ngIf="(item$ | async)?.followers">
-                       <b> {{(item$ | async)?.followers }}</b> follower
-                    </div>
-                    <div class="ml-3" *ngIf="(item$ | async)?.following">
-                       <b> {{(item$ | async)?.following }}</b> following
-                    </div>
-                    <!-- <div class="ml-3">
+        <!-- {{(item$ | async)?.bio}} -->
+        <!-- {{item$ | json}} -->
+        <div class="d-flex">
+          <div class="mr-2">
+            <a [href]="(item$ | async)?.html_url">
+              <img
+                class="thumbnail-size"
+                [src]="(item$ | async)?.avatar_url"
+                alt="'N/a'"
+              />
+            </a>
+          </div>
+          <h5>
+            <a [href]="(item$ | async)?.html_url">{{ (item$ | async)?.name }}</a
+            >&nbsp;
+            <a [href]="(item$ | async)?.html_url">{{
+              (item$ | async)?.login
+            }}</a>
+          </h5>
+        </div>
+        <div class="d-flex">
+          <p class="ml-4">{{ (item$ | async)?.bio }}</p>
+        </div>
+
+        <div class="d-flex">
+          <div class="ml-3" *ngIf="(item$ | async)?.location">
+            {{ (item$ | async)?.location }}
+          </div>
+          <div class="ml-3" *ngIf="(item$ | async)?.email">
+            {{ (item$ | async)?.email }}
+          </div>
+          <div class="ml-3" *ngIf="(item$ | async)?.public_repos">
+            <b> {{ (item$ | async)?.public_repos }}</b> public repos
+          </div>
+          <div class="ml-3" *ngIf="(item$ | async)?.followers">
+            <b> {{ (item$ | async)?.followers }}</b> follower
+          </div>
+          <div class="ml-3" *ngIf="(item$ | async)?.following">
+            <b> {{ (item$ | async)?.following }}</b> following
+          </div>
+          <!-- <div class="ml-3">
                         {{(item$ | async)?.email }} public repos
                     </div> -->
-                </div>
-            
-            </li>
-            
-        </ul>
-    </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

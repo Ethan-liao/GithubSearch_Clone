@@ -1,75 +1,102 @@
 <div class="container mt-3">
-    <div [formGroup]="resultsFg" class="d-flex mb-3">
-        <input formControlName="searchInput" type="text" class="form-control" placeholder="Search Github" aria-label="Search Github" aria-describedby="basic-addon2">
-       <button class="ml-2 btn btn-secondary" [disabled]='resultsFg.invalid' (click)='searchItem()'>Search</button>
-    </div>
-    
-    <div class="d-flex">
-        <div>
-            <nav class="nav flex-column" *ngIf="(searchResult$ | async)?.total">
-        <!-- add the rest if theres time -->
-                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('repositories')" >Repositories <span  *ngIf="(searchResult$ | async)?.type === 'repositories'" class="badge badge-pill badge-secondary">{{(searchResult$ | async)?.total | shortenNum}}</span></button>
-                <!-- <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('commits')" >Commits</button>
-                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('topics')" >Topics</button> -->
-                <button 
-                    type="button" 
-                    class="list-group-item list-group-item-action"  
-                    (click)="searchItem('users')" >
-                    Users 
-                    <span 
-                        *ngIf="(searchResult$ | async)?.type === 'users'" 
-                        class="badge badge-pill badge-secondary">{{(searchResult$ | async)?.total | shortenNum}}</span></button>
-              </nav>
+  <div [formGroup]="resultsFg" class="d-flex mb-3">
+    <input
+      formControlName="searchInput"
+      type="text"
+      class="form-control"
+      placeholder="Search Github"
+      aria-label="Search Github"
+      aria-describedby="basic-addon2"
+    />
+    <button
+      class="ml-2 btn btn-secondary"
+      [disabled]="resultsFg.invalid"
+      (click)="searchItem()"
+    >
+      Search
+    </button>
+  </div>
 
-        <!-- add if theres time -->
-              <!-- <nav class="nav flex-column">
+  <div class="d-flex">
+    <div>
+      <nav class="nav flex-column" *ngIf="(searchResult$ | async)?.total">
+        <!-- add the rest if theres time -->
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          (click)="searchItem('repositories')"
+        >
+          Repositories
+          <span
+            *ngIf="(searchResult$ | async)?.type === 'repositories'"
+            class="badge badge-pill badge-secondary"
+            >{{ (searchResult$ | async)?.total | shortenNum }}
+          </span>
+        </button>
+        <!-- <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('commits')" >Commits</button>
+                <button type="button" class="list-group-item list-group-item-action" (click)="searchItem('topics')" >Topics</button> -->
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          (click)="searchItem('users')"
+        >
+          Users
+          <span
+            *ngIf="(searchResult$ | async)?.type === 'users'"
+            class="badge badge-pill badge-secondary"
+            >{{ (searchResult$ | async)?.total | shortenNum }}
+          </span>
+        </button>
+      </nav>
+
+      <!-- add if theres time -->
+      <!-- <nav class="nav flex-column">
                 <a class="nav-link active" aria-current="page" href="#">Active</a>
                 <a class="nav-link" href="#">Link</a>
                 <a class="nav-link" href="#">Link</a>
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
               </nav> -->
-        </div>
-        <div class="d-flex flex-column ml-3">
-            <div class="d-flex" *ngIf="(searchResult$ | async)?.total">
-                <h3>Showing {{(searchResult$ | async)?.total}} {{(searchResult$ | async)?.type}}  results 
-                </h3>
-                <!-- sort if there is time -->
-                <div class="dropdown ml-5">
-                    <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    </div>
+    <div class="d-flex flex-column ml-3">
+      <div class="d-flex" *ngIf="(searchResult$ | async)?.total">
+        <h3>
+          Showing {{ (searchResult$ | async)?.total }}
+          {{ (searchResult$ | async)?.type }} results
+        </h3>
+        <!-- sort if there is time -->
+        <div class="dropdown ml-5">
+          <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort By
                     </a> -->
-                
-            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+          <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="#">Action</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div> -->
-                </div>
-            </div>
-            <div [ngSwitch]="(searchResult$ | async)?.type">
-
-                <app-result-repos
-                *ngSwitchCase="'repositories'"
-                [searchResult$]="searchResult$"></app-result-repos>
-                <app-result-users
-                *ngSwitchCase="'users'"
-                [searchUserResult$]="searchResult$"></app-result-users>
-            </div>
         </div>
-        
+      </div>
+      <div [ngSwitch]="(searchResult$ | async)?.type">
+        <app-result-repos
+          *ngSwitchCase="'repositories'"
+          [searchResult$]="searchResult$"
+        ></app-result-repos>
+        <app-result-users
+          *ngSwitchCase="'users'"
+          [searchUserResult$]="searchResult$"
+        ></app-result-users>
+      </div>
     </div>
+  </div>
 
-
-   
-    
-
-    <nav *ngIf="pageCount" class="mt-4">
-        <ngb-pagination class="d-flex justify-content-center"
-         [collectionSize]="pageCount" 
-         [(page)]="page"
-         (click)="searchForPage()" 
-         [maxSize]="7" 
-         [boundaryLinks]="true"></ngb-pagination>
-      </nav>
-      <pre>current page {{page}}</pre>
+  <nav *ngIf="pageCount" class="mt-4">
+    <ngb-pagination
+      class="d-flex justify-content-center"
+      [collectionSize]="pageCount"
+      [(page)]="page"
+      (click)="searchForPage()"
+      [maxSize]="7"
+      [boundaryLinks]="true"
+    ></ngb-pagination>
+  </nav>
 </div>
