@@ -15,6 +15,10 @@ export class ShortenNumPipe implements PipeTransform {
       const res = copy.slice(0, copy.length - 6);
       return res + 'm';
     }
+    if (copy.length < 6) {
+      return value
+    }
+    
     if (!copy.length) {
       return null;
     }

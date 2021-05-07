@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FavoritesService } from '../services/favorites.service';
 import { SearchService } from '../services/search.service';
 
 @Component({
@@ -18,12 +19,15 @@ export class SearchResultComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private searchService: SearchService<any>,
-    private router: Router
+    private router: Router,
+    private favoriteService: FavoritesService
+
   ) {
     this.currentSearchType = 'repositories';
   }
 
   searchResult$ = this.searchService.getResult();
+  favorites$ = this.favoriteService.getList();
   resultListener: any;
   pageCount: number;
 
@@ -31,7 +35,6 @@ export class SearchResultComponent implements OnInit {
     searchInput: '',
     // repos:'',
     // code:'',
-
     // users:'',
     // wikis:'',
   });
@@ -67,6 +70,14 @@ export class SearchResultComponent implements OnInit {
     if (searchType) {
       this.currentSearchType = searchType;
     }
-    this.searchService.search(this.currentSearchType, inputValue).subscribe();
+    if (searchType === 'commits'){
+      this.searchService.search(this.currentSearchType, inputValue, undefined , 'application/vnd.github.cloak-preview').subscribe();
+    } else if (searchType === 'topics'){
+      this.searchService.search(this.currentSearchType, inputValue, undefined , 'application/vnd.github.mercy-preview+json').subscribe();
+    } else if(searchType === 'users'){
+      this.searchService.search(this.currentSearchType, inputValue).subscribe();
+    } else {
+      this.searchService.search(this.currentSearchType, inputValue).subscribe();
+    }
   }
 }

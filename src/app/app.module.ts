@@ -12,6 +12,10 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { SearchService } from './services/search.service';
 import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ShortenNumPipe } from './pipes/shorten-num.pipe';
+import { ResultCommitsComponent } from './search-result/result-commits/result-commits.component';
+import { ResultTopicsComponent } from './search-result/result-topics/result-topics.component';
+import { FavoritesService } from './services/favorites.service';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import { ShortenNumPipe } from './pipes/shorten-num.pipe';
     SearchResultComponent,
     ResultReposComponent,
     ResultUsersComponent,
-    ShortenNumPipe
+    ResultCommitsComponent, 
+    ResultTopicsComponent,
+    ShortenNumPipe,
   ],
   imports: [
     NgbModule,
@@ -34,7 +40,7 @@ import { ShortenNumPipe } from './pipes/shorten-num.pipe';
     ResultReposComponent,
     ResultUsersComponent
   ],
-  providers: [SearchService],
+  providers: [SearchService,FavoritesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
