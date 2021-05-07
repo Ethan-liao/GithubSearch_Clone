@@ -71,8 +71,12 @@
 
       <!-- add if theres time -->
       <nav class="nav flex-column">
-        <h5 *ngIf="(favorites$ | async).length" class="">Favourites</h5>
-          <a class="list-group-item list-group-item-action" aria-current="page" href="#" *ngFor="let item of (favorites$ | async)">{{item?.full_name || item?.login}}</a>   
+        <h5 *ngIf="(favorites$ | async).length" class="">Favorites</h5>
+          <div class="list-group-item list-group-item-action" *ngFor="let item of (favorites$ | async); let i = index">
+            <a  aria-current="page" href="#">{{item?.full_name || item?.login}}</a>  
+            <button class="badge badge-danger px-2" (click)="delete(i)">Delete</button>
+
+          </div>
                 
         </nav>
     </div>

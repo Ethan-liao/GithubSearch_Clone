@@ -50,7 +50,9 @@ export class SearchResultComponent implements OnInit {
       this.pageCount = res.total > 10000 ? 1000 : res.total;
     });
   }
-
+  delete(index){
+    this.favoriteService.deleteItem(index)
+  }
   searchForPage() {
     setTimeout(() => {
       if (this.page) {

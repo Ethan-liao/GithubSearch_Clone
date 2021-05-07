@@ -20,5 +20,9 @@ export class FavoritesService {
     return this._lastUpdate.asObservable();
   }
 
+  deleteItem(index){
+    this.currentArr.splice(index,1)
+    this._lastUpdate.next(this.currentArr);
+  }
 
 }
